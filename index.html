@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <title>PayPhone for SkyWay PocketBell</title>
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="dtmf.js"></script>
@@ -18,7 +19,7 @@
 
     <div id="receiver">
         <div id="bar"></div>
-        <a id="handle" href="#" onclick="javascript:reset();return false;">
+        <a id="handle" href="#" onclick="return false;">
             <div id="armV"></div>
             <div id="armH"></div>
             <div id="armML"></div>
@@ -47,20 +48,20 @@
                 </div>
             </div>
             <div class="panel-left">
-                <span class="middle">送信方法</span><br>
+                <span class="middle">数字列送信</span><br>
                 1. コインを投入<br>
-                2. 4桁の番号を入力<br>
-                3. 数字を入力<br>
+                2. 4桁のベル番号を入力<br>
+                3. 送りたい数字を入力<br>
                 4. 受話器を戻す<br>
                 <br>
-                <span class="middle">フリーメッセージ</span><br>
-                手順3で<br>
+                <span class="middle">メッセージ送信</span><br>
+                数字列送信の3.で、<br>
                 1. 最初に *2*2 を入力<br>
                 2. 文字コードを入力<br>
                 3. 最後に ## を入力<br>
                 <br>
-                <span class="middle">定型文</span><br>
-                手順3で<br>
+                <span class="middle">定型文送信</span><br>
+                数字列送信の3.で、<br>
                 1. 最初に *05 を入力<br>
                 2. 定型文コードを入力<br>
                 3. 最後に ## を入力<br>
@@ -75,29 +76,29 @@
                     <span class="large">10円･100円</span><br>
                     <span>100円はおつりがでません<br>なお、10円の方が先に収納されます</span>
                 </div>
-                <a href="#" onclick="javascript:coin();return false;" id="coin">|</a>
+                <a href="#" onclick="return false;" id="coin">|</a>
             </div>
 
             <div id="btn-panel">
                 <div class="btn-row-box">
-                    <a href="#" onclick="javascript:dtmf(1);push(1);return false;" class="btn-call">1</a>
-                    <a href="#" onclick="javascript:dtmf(2);push(2);return false;" class="btn-call">2</a>
-                    <a href="#" onclick="javascript:dtmf(3);push(3);return false;" class="btn-call">3</a>
+                    <a href="#" onclick="return false;" class="btn-call">1</a>
+                    <a href="#" onclick="return false;" class="btn-call">2</a>
+                    <a href="#" onclick="return false;" class="btn-call">3</a>
                 </div>
                 <div class="btn-row-box">
-                    <a href="#" onclick="javascript:dtmf(4);push(4);return false;" class="btn-call">4</a>
-                    <a href="#" onclick="javascript:dtmf(5);push(5);return false;" class="btn-call">5</a>
-                    <a href="#" onclick="javascript:dtmf(6);push(6);return false;" class="btn-call">6</a>
+                    <a href="#" onclick="return false;" class="btn-call">4</a>
+                    <a href="#" onclick="return false;" class="btn-call">5</a>
+                    <a href="#" onclick="return false;" class="btn-call">6</a>
                 </div>
                 <div class="btn-row-box">
-                    <a href="#" onclick="javascript:dtmf(7);push(7);return false;" class="btn-call">7</a>
-                    <a href="#" onclick="javascript:dtmf(8);push(8);return false;" class="btn-call">8</a>
-                    <a href="#" onclick="javascript:dtmf(9);push(9);return false;" class="btn-call">9</a>
+                    <a href="#" onclick="return false;" class="btn-call">7</a>
+                    <a href="#" onclick="return false;" class="btn-call">8</a>
+                    <a href="#" onclick="return false;" class="btn-call">9</a>
                 </div>
                 <div class="btn-row-box">
-                    <a href="#" onclick="javascript:dtmf('*');push('*');return false;" class="btn-call">*</a>
-                    <a href="#" onclick="javascript:dtmf(0);push(0);return false;" class="btn-call">0</a>
-                    <a href="#" onclick="javascript:dtmf('#');push('#');return false;" class="btn-call">#</a>
+                    <a href="#" onclick="return false;" class="btn-call">*</a>
+                    <a href="#" onclick="return false;" class="btn-call">0</a>
+                    <a href="#" onclick="return false;" class="btn-call">#</a>
                 </div>
             </div>
 

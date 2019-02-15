@@ -73,12 +73,15 @@ function reset(display_message = 'THNX') {
         if (ButtonPushed != '' && connection.open) {
             display_message = 'SENT'
             connection.send(ButtonPushed);
+            console.log('Sent: "' + ButtonPushed + '"');
+        } else {
+            if (!connection.open) console.log('Connection: already closed');
         }
         setTimeout(function(){
             if (typeof(connection.close === 'function')) connection.close();
             connection = null;
             console.log('Connection: Reset');
-        }, 1000);
+        }, 3000);
     }
     display(display_message);
     ButtonPushed = '';
@@ -111,18 +114,13 @@ function checkNumber(pushed_string) {
                         serialization: "none"
                     });
                     setTimeout(function(){
-                        if (connection.open) {
-                            console.log('Connected to ' + bell_peer_id);
-                            connection.on('data', (data)=> {
-                                // if data comes, show on log
-                                console.log(data);
-                            });
-                            display(pushed_string);
-                        } else {
-                            console.log("Couldn't connect to " + bell_peer_id);
-                            reset('ERR.');
-                        }
-                    }, 2000);
+                        connection.on('data', (data)=> {
+                            // if data comes, show on log
+                            console.log(data);
+                        });
+                        display(pushed_string);
+                        console.log('Connection established with "'+ bell_peer_id +'" if no error occurs after here..');
+                    }, 1000);
                 }
             });
             return '';
@@ -147,13 +145,6 @@ function checkNumber(pushed_string) {
     }
 }
 
-function push(num) {
-    if (paid) {
-        ButtonPushed += String(num);
-        ButtonPushed = checkNumber(ButtonPushed);
-    }
-}
-
 function coin() {
     if (!paid) {
         paid = true;
@@ -171,6 +162,14 @@ function coin() {
         });
     }
 }
+
+function push(num) {
+    if (paid) {
+        ButtonPushed += String(num);
+        ButtonPushed = checkNumber(ButtonPushed);
+    }
+}
+
 
 
 
@@ -196,6 +195,40 @@ window.onload = ()=> {
     peer.on('error', function (err) {
         console.log(err);
         reset('ERR.');
+    });
+
+
+
+    // for touch screen mobile browser..
+    // prevent from clicking after touchstart
+    let isTouch = false;
+    $('.btn-call').on('touchstart click', function(event) {
+        if (event.type === 'touchstart') isTouch = true;
+        // ...
+        if (isTouch) {
+            isTouch = false;
+        } else {
+            // main process for "Number button push"
+            const N = $(this).text();
+            dtmf(N); // push tone
+            push(N);
+        }
+    });
+    $('#coin').on('touchstart click', function(event) {
+        if (event.type === 'touchstart') isTouch = true;
+        if (isTouch) {
+            isTouch = false;
+        } else {
+            coin();
+        }
+    });
+    $('#handle').on('touchstart click', function(event) {
+        if (event.type === 'touchstart') isTouch = true;
+        if (isTouch) {
+            isTouch = false;
+        } else {
+            reset();
+        }
     });
 };
 
