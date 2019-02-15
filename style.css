@@ -187,7 +187,7 @@ body {
     position: relative;
     width: calc(2px + 11vmin);
     height: 11vmin;
-    font-size: 12vmin;
+    font-size: 11vmin;
     background: #b4b4b4;
     background-image: linear-gradient(rgba(255,255,255,.3) 10%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
     box-shadow: 0 2px 2px 0 rgba(255, 255, 255, 0.5) inset,0 2px 10px 0 rgba(255,255,255,.5) inset,0 -2px 2px 0 rgba(0,0,0,.1) inset;
