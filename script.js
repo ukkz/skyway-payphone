@@ -1,6 +1,7 @@
 'use strict';
 
 const DEBUG_LEVEL = 1; // 0:NONE,1:ERROR,2:WARNING,3:FULL
+let test_mode = false;
 let my_peer_id = '';
 let ButtonPushed = '';
 let paid = false;
@@ -65,7 +66,7 @@ function getQueryParams() {
 }
 
 function display(message) {
-    document.getElementById('display').textContent = message;
+    $('#display').text(message);
 }
 
 function reset(display_message = 'THNX') {
@@ -83,6 +84,11 @@ function reset(display_message = 'THNX') {
             console.log('Connection: Reset');
         }, 3000);
     }
+    if (test_mode && ButtonPushed != '') {
+        console.log('This is test mode: so not sent to any devices.');
+        console.log('Typed message is "' + ButtonPushed + '"');
+        alert('メッセージ: "'+ButtonPushed+'"\n＜テストモードのため端末には送信されません＞');
+    }
     display(display_message);
     ButtonPushed = '';
     if (paid) {
@@ -97,7 +103,7 @@ function checkNumber(pushed_string) {
     const free_mes = /\*2\*2([0-9]+)##$/;
     const const_mes = /\*05([0-9]+)##$/;
     
-    if (connection === null) {
+    if (!test_mode && connection === null) {
         // not connect (coin clicked)
         if (call_start.test(pushed_string)) {
             const bell_peer_id = 'bell-' + pushed_string;
@@ -149,17 +155,24 @@ function coin() {
     if (!paid) {
         paid = true;
         console.log('Coin: paid');
-        document.getElementById('display').textContent = 'CALL';
-        peer.listAllPeers(peers => {
-            let peers_list = 'Connected peers:';
-            peers.forEach(function(peer_id) {
-                peers_list += ' ' + peer_id;
-                if (peer_id == my_peer_id) {
-                    peers_list += '(me)'
-                }
+        
+        if (test_mode) {
+            // stand-alone (test mode)
+            display('TEST');
+        } else {
+            // connect skyway
+            display('CALL');
+            peer.listAllPeers(peers => {
+                let peers_list = 'Connected peers:';
+                peers.forEach(function(peer_id) {
+                    peers_list += ' ' + peer_id;
+                    if (peer_id == my_peer_id) {
+                        peers_list += '(me)'
+                    }
+                });
+                console.log(peers_list);
             });
-            console.log(peers_list);
-        });
+        }
     }
 }
 
@@ -183,19 +196,24 @@ window.onload = ()=> {
     const apikey = query["apikey"];
     my_peer_id = 'payphone-' + Math.floor(Math.random()*10000).toString().padStart(4,'0')
 
-    peer = new Peer(my_peer_id, {
-        key: apikey,
-        debug: DEBUG_LEVEL
-    });
+    try {
+        peer = new Peer(my_peer_id, {
+            key: apikey,
+            debug: DEBUG_LEVEL
+        });
+        peer.on('open', function () {
+            //
+        });
+        peer.on('error', function (err) {
+            console.log(err);
+            reset('ERR.');
+        });
+    } catch (e) {
+        console.log(e);
+        console.log('This payphone runs as test mode.');
+        test_mode = true;
+    }
 
-    peer.on('open', function () {
-        //
-    });
-
-    peer.on('error', function (err) {
-        console.log(err);
-        reset('ERR.');
-    });
 
 
 
@@ -231,7 +249,3 @@ window.onload = ()=> {
         }
     });
 };
-
-
-
-
