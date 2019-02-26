@@ -193,10 +193,10 @@ function push(num) {
 
 window.onload = ()=> {
     const query = getQueryParams();
-    const apikey = query["apikey"];
     my_peer_id = 'payphone-' + Math.floor(Math.random()*10000).toString().padStart(4,'0')
 
     try {
+        const apikey = query["apikey"];
         peer = new Peer(my_peer_id, {
             key: apikey,
             debug: DEBUG_LEVEL

@@ -245,3 +245,8 @@ span.middle {
     font-weight: bold;
     font-size: 2.5vmin;
 }
+span.small {
+    display: inline-block;
+    text-align: center;
+    font-size: 1.2vmin;
+}
